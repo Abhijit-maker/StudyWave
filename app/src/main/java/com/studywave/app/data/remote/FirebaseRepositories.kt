@@ -317,19 +317,9 @@ class FirebaseTestRepository(
     override suspend fun submit(attemptId: String): TestAttempt {
         val functionsClient = functions
             ?: throw AppError.Configuration("Cloud Functions are not deployed. Scoring is pending configuration.")
-        val result = functionsClient.getHttpsCallable("submitTest").call(mapOf("attemptId" to attemptId)).await()
-        @Suppress("UNCHECKED_CAST")
-        val data = result.data as? Map<String, Any?> ?: emptyMap()
-        return TestAttempt(
-            id = attemptId,
-            testId = data["testId"] as? String ?: "",
-            uid = data["uid"] as? String ?: "",
-            score = (data["score"] as? Number)?.toDouble(),
-            correct = (data["correct"] as? Number)?.toInt(),
-            incorrect = (data["incorrect"] as? Number)?.toInt(),
-            unanswered = (data["unanswered"] as? Number)?.toInt(),
-            submittedAt = System.currentTimeMillis()
-        )
+        functionsClient.getHttpsCallable("submitTest").call(mapOf("attemptId" to attemptId)).await()
+        return requireDb(db).collection("testAttempts").document(attemptId).get().await().toAttempt()
+            ?: throw AppError.Unknown("Submission completed but the result could not be loaded.")
     }
 }
 

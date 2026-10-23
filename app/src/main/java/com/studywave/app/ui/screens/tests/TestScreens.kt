@@ -109,7 +109,7 @@ private fun TestCard(test: MockTest, onStart: () -> Unit) {
             }
         }
         Spacer(Modifier.height(12.dp))
-        SwPrimaryButton("Start Test", onStart)
+        SwPrimaryButton("Start Test", onClick = onStart)
     }
 }
 
@@ -214,13 +214,13 @@ fun TestPlayerScreen(
                     Spacer(Modifier.height(12.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Box(Modifier.weight(1f)) {
-                            SwPrimaryButton("Previous", { viewModel.goTo(state.index - 1) }, enabled = state.index > 0)
+                            SwPrimaryButton("Previous", enabled = state.index > 0, onClick = { viewModel.goTo(state.index - 1) })
                         }
                         Box(Modifier.weight(1f)) {
                             if (state.index == state.questions.lastIndex) {
-                                SwPrimaryButton("Submit", { viewModel.submit(onSubmitted) }, loading = state.submitting)
+                                SwPrimaryButton("Submit", loading = state.submitting, onClick = { viewModel.submit(onSubmitted) })
                             } else {
-                                SwPrimaryButton("Next", { viewModel.goTo(state.index + 1) })
+                                SwPrimaryButton("Next", onClick = { viewModel.goTo(state.index + 1) })
                             }
                         }
                     }
@@ -256,6 +256,6 @@ fun TestResultScreen(attemptId: String, onBack: () -> Unit) {
             )
         }
         Spacer(Modifier.height(16.dp))
-        SwPrimaryButton("Back to tests", onBack)
+        SwPrimaryButton("Back to tests", onClick = onBack)
     }
 }

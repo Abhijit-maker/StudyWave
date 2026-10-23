@@ -84,7 +84,7 @@ fun OnboardingScreen(onGetStarted: () -> Unit, onLogin: () -> Unit) {
         Spacer(Modifier.height(24.dp))
         StudyCompanionIllustration(size = 220.dp)
         Spacer(Modifier.weight(1f))
-        SwPrimaryButton("Get Started", onGetStarted)
+        SwPrimaryButton("Get Started", onClick = onGetStarted)
         TextButton(onClick = onLogin) {
             Text("Already have an account? Login", color = StudyWaveColors.PrimaryPurple)
         }
@@ -227,7 +227,7 @@ private fun AuthForm(
             Text(auth.info, color = StudyWaveColors.Success, fontSize = 13.sp)
         }
         Spacer(Modifier.height(20.dp))
-        SwPrimaryButton(primary, onPrimary, loading = auth.loading, enabled = !setupRequired)
+        SwPrimaryButton(primary, loading = auth.loading, enabled = !setupRequired, onClick = onPrimary)
         TextButton(onClick = onSecondary, modifier = Modifier.fillMaxWidth()) {
             Text(secondary, color = StudyWaveColors.PrimaryPurple, textAlign = TextAlign.Center)
         }

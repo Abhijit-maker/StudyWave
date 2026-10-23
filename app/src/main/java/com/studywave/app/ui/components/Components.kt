@@ -81,10 +81,10 @@ fun SwCard(
 @Composable
 fun SwPrimaryButton(
     text: String,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    loading: Boolean = false
+    loading: Boolean = false,
+    onClick: () -> Unit
 ) {
     val interaction = remember { MutableInteractionSource() }
     val pressed by interaction.collectIsPressedAsState()
@@ -180,8 +180,8 @@ fun SwTextField(
 fun FilterChipRow(
     items: List<String>,
     selected: String,
-    onSelected: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSelected: (String) -> Unit
 ) {
     Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         items.forEach { item ->
@@ -253,7 +253,7 @@ fun EmptyState(
         Text(message, color = StudyWaveColors.SecondaryText, textAlign = TextAlign.Center, fontSize = 14.sp)
         if (action != null && onAction != null) {
             Spacer(Modifier.height(16.dp))
-            SwPrimaryButton(action, onAction, modifier = Modifier.width(200.dp))
+            SwPrimaryButton(text = action, modifier = Modifier.width(200.dp), onClick = onAction)
         }
     }
 }
@@ -369,8 +369,8 @@ fun StatusPill(text: String, color: Color) {
 fun SoftIconButton(
     icon: ImageVector,
     contentDescription: String?,
-    onClick: () -> Unit,
-    tint: Color = StudyWaveColors.MainText
+    tint: Color = StudyWaveColors.MainText,
+    onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -414,8 +414,8 @@ fun QuickActionTile(
     icon: ImageVector,
     tint: Color,
     background: Color,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
     Column(
         modifier = modifier

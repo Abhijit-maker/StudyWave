@@ -66,9 +66,9 @@ fun ProfileScreen(
         ProfileRow(Icons.Outlined.Settings, "Settings") {}
         ProfileRow(Icons.Outlined.HelpOutline, "Help & Support") {}
         if (session.role == UserRole.ADMIN) {
-            ProfileRow(Icons.Outlined.AdminPanelSettings, "Admin Mode", onAdmin)
+            ProfileRow(Icons.Outlined.AdminPanelSettings, "Admin Mode", onClick = onAdmin)
         }
-        ProfileRow(Icons.Outlined.Logout, "Logout", { viewModel.signOut() }, StudyWaveColors.Error)
+        ProfileRow(Icons.Outlined.Logout, "Logout", tint = StudyWaveColors.Error, onClick = { viewModel.signOut() })
         Spacer(Modifier.height(16.dp))
         Text(
             "Roles are assigned with Firebase custom claims. Editing a profile document cannot make a student an admin.",
@@ -82,8 +82,8 @@ fun ProfileScreen(
 private fun ProfileRow(
     icon: ImageVector,
     title: String,
-    onClick: () -> Unit,
-    tint: androidx.compose.ui.graphics.Color = StudyWaveColors.MainText
+    tint: androidx.compose.ui.graphics.Color = StudyWaveColors.MainText,
+    onClick: () -> Unit
 ) {
     SwCard(modifier = Modifier.padding(bottom = 8.dp), onClick = onClick) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {

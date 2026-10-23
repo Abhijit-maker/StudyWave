@@ -82,7 +82,7 @@ fun HomeScreen(
                 Text("Hello, ${state.name}", fontWeight = FontWeight.Bold, fontSize = 24.sp, color = StudyWaveColors.MainText)
                 Text("Keep going! Your hard work will pay off.", color = StudyWaveColors.SecondaryText, fontSize = 13.sp)
             }
-            SoftIconButton(Icons.Outlined.Notifications, "Notices", onNotices)
+            SoftIconButton(Icons.Outlined.Notifications, "Notices", onClick = onNotices)
         }
         Spacer(Modifier.height(16.dp))
         GradientHeader {
@@ -103,7 +103,7 @@ fun HomeScreen(
                 )
                 Spacer(Modifier.height(12.dp))
                 Box(Modifier.width(140.dp)) {
-                    SwPrimaryButton("Continue", { latest?.id?.let(onPdf) ?: onLibrary() })
+                    SwPrimaryButton("Continue", onClick = { latest?.id?.let(onPdf) ?: onLibrary() })
                 }
             }
             StudyCompanionIllustration(size = 110.dp)
@@ -127,10 +127,10 @@ fun HomeScreen(
         }
         Spacer(Modifier.height(16.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-            QuickActionTile("PDF Library", Icons.Outlined.MenuBook, Color(0xFF43A047), StudyWaveColors.SoftMint, onLibrary, Modifier.weight(1f))
-            QuickActionTile("Mock Test", Icons.Outlined.Quiz, StudyWaveColors.PrimaryPurple, StudyWaveColors.LavenderSurface, onTests, Modifier.weight(1f))
-            QuickActionTile("AI Chat", Icons.Outlined.AutoAwesome, StudyWaveColors.SoftBlue, StudyWaveColors.LightBlueSurface, onAi, Modifier.weight(1f))
-            QuickActionTile("Live Voice", Icons.Outlined.Mic, Color(0xFF8E24AA), StudyWaveColors.SoftLilac, onVoice, Modifier.weight(1f))
+            QuickActionTile("PDF Library", Icons.Outlined.MenuBook, Color(0xFF43A047), StudyWaveColors.SoftMint, Modifier.weight(1f), onLibrary)
+            QuickActionTile("Mock Test", Icons.Outlined.Quiz, StudyWaveColors.PrimaryPurple, StudyWaveColors.LavenderSurface, Modifier.weight(1f), onTests)
+            QuickActionTile("AI Chat", Icons.Outlined.AutoAwesome, StudyWaveColors.SoftBlue, StudyWaveColors.LightBlueSurface, Modifier.weight(1f), onAi)
+            QuickActionTile("Live Voice", Icons.Outlined.Mic, Color(0xFF8E24AA), StudyWaveColors.SoftLilac, Modifier.weight(1f), onVoice)
         }
         Spacer(Modifier.height(20.dp))
         SectionHeader("Recent PDFs", "View All", onLibrary)

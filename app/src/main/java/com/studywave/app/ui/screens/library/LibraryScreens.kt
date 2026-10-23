@@ -86,7 +86,7 @@ fun LibraryScreen(
         SwSearchField(state.query, viewModel::onQuery, "Search PDFs...")
         Spacer(Modifier.height(12.dp))
         Box(Modifier.horizontalScroll(rememberScrollState())) {
-            FilterChipRow(Catalog.subjects.map { it.label }, state.subject, viewModel::onSubject)
+            FilterChipRow(Catalog.subjects.map { it.label }, state.subject, onSelected = viewModel::onSubject)
         }
         Spacer(Modifier.height(12.dp))
         GradientHeader {
