@@ -1,0 +1,109 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn() && request.auth.token.role == 'admin';
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid)
+        && !request.resource.data.keys().hasAny(['role']);
+      allow update: if isOwner(uid)
+        && !request.resource.data.diff(resource.data).affectedKeys()
+            .hasAny(['role'])
+        || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /subjects/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    match /pdfs/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.published == true);
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /mockTests/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.published == true);
+      allow write: if isAdmin();
+
+      match /questions/{qid} {
+        allow read: if signedIn();
+        allow write: if isAdmin();
+      }
+
+      match /answerKey/{qid} {
+        allow read, write: if isAdmin();
+      }
+    }
+
+    match /testAttempts/{id} {
+      allow read: if isOwner(resource.data.uid) || isAdmin();
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.score == null
+        && request.resource.data.submittedAt == null;
+      allow update: if isOwner(resource.data.uid)
+        && resource.data.submittedAt == null
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.testId == resource.data.testId
+        && request.resource.data.score == null;
+      allow delete: if false;
+    }
+
+    match /notices/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.published == true);
+      allow write: if isAdmin();
+    }
+
+    match /conversations/{id} {
+      allow read, update, delete: if isOwner(resource.data.uid) || isAdmin();
+      allow create: if isOwner(request.resource.data.uid);
+
+      match /messages/{mid} {
+        allow read: if isOwner(get(/databases/$(database)/documents/conversations/$(id)).data.uid);
+        allow create: if isOwner(get(/databases/$(database)/documents/conversations/$(id)).data.uid);
+        allow update, delete: if false;
+      }
+    }
+
+    match /readingProgress/{id} {
+      allow read, write: if isOwner(resource.data.uid)
+        || (request.method == 'create' && isOwner(request.resource.data.uid));
+    }
+
+    match /bookmarks/{id} {
+      allow read, write: if isOwner(resource.data.uid)
+        || (request.method == 'create' && isOwner(request.resource.data.uid));
+    }
+
+    match /appConfig/public {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    match /appConfig/adminStats {
+      allow read, write: if isAdmin();
+    }
+
+    match /aiUsage/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow write: if false;
+    }
+
+    match /auditLogs/{id} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+  }
+}
