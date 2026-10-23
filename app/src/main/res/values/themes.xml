@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.StudyWave" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/studywave_background</item>
+        <item name="android:navigationBarColor">@color/studywave_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowBackground">@color/studywave_background</item>
+    </style>
+
+    <style name="Theme.StudyWave.Splash" parent="Theme.StudyWave">
+        <item name="android:windowBackground">@color/studywave_lavender</item>
+    </style>
+</resources>

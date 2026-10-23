@@ -1,0 +1,17 @@
+{
+  "name": "studywave-functions",
+  "description": "Trusted StudyWave Cloud Functions. Keep this folder out of the Android Gradle build.",
+  "engines": {
+    "node": "20"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "echo \"No lint configured\"",
+    "deploy": "firebase deploy --only functions"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.1.0"
+  },
+  "private": true
+}
